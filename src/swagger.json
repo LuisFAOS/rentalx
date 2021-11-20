@@ -1,0 +1,77 @@
+{
+   "openapi": "3.0.0",
+   "info": {
+      "title": "RentalX API Documentation",
+      "description": "This is an API Rent",
+      "version": "1.0.0",
+      "contact": {
+         "email": "luisfaos.web@gmail.com"
+      }
+   },
+   "paths": {
+      "/categories": {
+         "post": {
+            "tags": ["Category"],
+            "summary": "create a category",
+            "description": "create a new category and put in memory",
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "name": {
+                              "type": "string"
+                           },
+                           "description": {
+                              "type": "string"
+                           }
+                        },
+                        "example": {
+                           "name": "category name sample",
+                           "description": "category description sample"
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Category created!"
+               },
+               "500": {
+                  "description": "category name already exists!"
+               }
+            }
+         },
+         "get": {
+            "tags": ["Category"],
+            "summary": "list all categories",
+            "description": "list all categories from the inmemory",
+            "responses": {
+               "200": {
+                  "description": "Success",
+                  "content":{
+                     "application/json": {
+                        "schema": {
+                           "type": "array",
+                           "items": {
+                              "type": "object",
+                              "properties": {
+                                 "name": {
+                                    "type": "string"
+                                 },
+                                 "description": {
+                                    "type": "string"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         } 
+      }
+   }
+}
