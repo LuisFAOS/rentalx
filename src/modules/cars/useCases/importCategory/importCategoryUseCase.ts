@@ -2,10 +2,16 @@ import { ICategoriesRepository, ICreateCategoryDTO } from '../../repositories/IC
 
 import fs from 'fs'
 import {parse} from 'csv-parse'
+import { inject, injectable } from 'tsyringe'
+import { AppError } from '../../../../errors/AppError'
 
+@injectable()
 class ImportCategoryUseCase {
 
-   constructor(private categoriesRepository: ICategoriesRepository){}
+   constructor(
+      @inject("CategoriesRepository") 
+      private categoriesRepository: ICategoriesRepository
+   ){}
 
    private loadCategories(file: Express.Multer.File): Promise<ICreateCategoryDTO[]> {
       return new Promise((resolve, reject) => {
@@ -41,13 +47,13 @@ class ImportCategoryUseCase {
 
       let error;
 
-      categories.forEach(category => {
+      categories.forEach(async category => {
          const { name, description } = category
 
-         const categoryAlreadyExists = this.categoriesRepository.findByName(name)
-         if(categoryAlreadyExists) error = new Error('category name already exists!')
+         const categoryAlreadyExists = await this.categoriesRepository.findByName(name)
+         if(categoryAlreadyExists) error = new AppError('category name already exists!')
          
-         this.categoriesRepository.create({
+         await this.categoriesRepository.create({
             name,
             description
          })

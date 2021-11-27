@@ -1,7 +1,7 @@
 {
    "openapi": "3.0.0",
    "info": {
-      "title": "RentalX API Documentation",
+      "title": "Rentx API Documentation",
       "description": "This is an API Rent",
       "version": "1.0.0",
       "contact": {
@@ -13,7 +13,7 @@
          "post": {
             "tags": ["Category"],
             "summary": "create a category",
-            "description": "create a new category and put in memory",
+            "description": "create a new category on db",
             "requestBody": {
                "content": {
                   "application/json": {
@@ -47,7 +47,7 @@
          "get": {
             "tags": ["Category"],
             "summary": "list all categories",
-            "description": "list all categories from the inmemory",
+            "description": "list all categories from db",
             "responses": {
                "200": {
                   "description": "Success",
@@ -72,6 +72,75 @@
                }
             }
          } 
+      },
+      "/categories/import-file": {
+         "post": {
+            "tags": ["Category"],
+            "summary": "Upload a new category",
+            "description": "Send a csv file to add categories on db",
+            "requestBody": {
+               "content": {
+                  "multipart/form-data": {
+                     "schema": {
+                        "type": "string",
+                        "properties": {
+                           "file": {
+                              "type": "string",
+                              "format": "binary" 
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Created"
+               }
+            }
+         }
+      },
+      "specifications": {
+         "post": {
+            "tags": ["Specification"],
+            "summary": "create a specification",
+            "description": "create a new specification on db",
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/definitions/Specification"
+                        },
+                        "example": {
+                           "name": "specification name sample",
+                           "description": "specification description sample"
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Specification was created!"
+               },
+               "500": {
+                  "description": "Specification name already exists!"
+               }
+            }
+         }
+      },
+
+      "definitions": {
+         "Specification": {
+            "type": "object",
+            "properties":{
+               "name": {
+                  "type": "string"
+               },
+               "description": {
+                  "type": "string"
+               }
+            }
       }
    }
 }
