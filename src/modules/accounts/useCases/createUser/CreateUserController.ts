@@ -5,10 +5,22 @@ import { CreateUserUseCase } from "./CreateUserUseCase";
 
 class CreateUserController{
    async handle(req: Request, res: Response): Promise<Response>{
-      const user:ICreateUserDTO = req.body
+      const { 
+         name, 
+         username, 
+         driver_license, 
+         email, 
+         password 
+      }:ICreateUserDTO = req.body
 
       const createUserUseCase = container.resolve(CreateUserUseCase)
-      await createUserUseCase.execute(user)
+      await createUserUseCase.execute({
+         name, 
+         username, 
+         driver_license, 
+         email, 
+         password 
+      })
 
       return res.status(201).send("user was created!")
    }
