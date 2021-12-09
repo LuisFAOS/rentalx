@@ -1,10 +1,11 @@
 import "reflect-metadata"
-import "express-async-errors"
 
 import "../../container"
-import "../typeorm"
+import createConnection from "../typeorm"
+createConnection()
 
 import express from "express";
+import "express-async-errors"
 import swaggerUI from 'swagger-ui-express'
 
 import swaggerFile from "../../../swagger.json"
@@ -17,8 +18,6 @@ const app = express();
 
 app.use(express.json())
 
-app.use(errorHandler)
-
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerFile))
 
 app.get("/", (_, res) => {
@@ -26,5 +25,7 @@ app.get("/", (_, res) => {
 })
 
 app.use(router)
+
+app.use(errorHandler)
 
 app.listen(3333, () => console.log("server is running on http://localhost:3333"))
