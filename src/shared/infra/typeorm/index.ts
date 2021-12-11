@@ -3,9 +3,11 @@ import { Connection, createConnection, getConnectionOptions } from 'typeorm'
 export default async(host = "db"): Promise<Connection> => {
    const defaultOptions = await getConnectionOptions()
 
-   return createConnection(
+   const connection = await createConnection(
       Object.assign(defaultOptions, {
          host
       })
    )
+
+   return connection
 }

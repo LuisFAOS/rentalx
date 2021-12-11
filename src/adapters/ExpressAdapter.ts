@@ -13,7 +13,13 @@ const statusCodeMap = {
 class ExpressAdapter{
    static create(controller: Function){
       return async function(req: Request, res: Response){
-         const output:IOutput = await controller(req.query, req.body)
+         const others = {
+            params: req.params,
+            file: req.file,
+            files: req.files
+         }
+
+         const output:IOutput = await controller(req.query, req.body, others)
 
          return res.status(statusCodeMap[output.status]).json(output.result)
       }
