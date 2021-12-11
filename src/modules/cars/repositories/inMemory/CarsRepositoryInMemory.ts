@@ -24,11 +24,15 @@ class CarsRepositoryInMemory implements ICarsRepository{
 
       filteredCars = this.cars.filter(car => car.available)
 
-      Object.entries(options).forEach(([key, value]) => {
+      typeof options === "object" && Object.entries(options).forEach(([key, value]) => {
          filteredCars = filteredCars.filter(car => car[key] === value)
       })
       
       return filteredCars
+   }
+
+   async findById(car_id: string): Promise<Car> {
+      return this.cars.find(car => car.id === car_id)
    }
 }
 
