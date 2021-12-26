@@ -15,6 +15,7 @@ class ExpressAdapter{
       return async function(req: Request, res: Response){
          const others = {
             params: req.params,
+            user_id: req.user_id,
             file: req.file,
             files: req.files
          }
