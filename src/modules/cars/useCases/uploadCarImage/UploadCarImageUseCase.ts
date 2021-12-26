@@ -13,7 +13,7 @@ class UploadCarImageUseCase{
    ){}
 
    async execute({car_id, images_name}: IInput) {
-      const carsImage = images_name.map(async image_name => {
+      images_name.forEach(async image_name => {
          await this.carsImageRepository.create(car_id, image_name)
       })
    }

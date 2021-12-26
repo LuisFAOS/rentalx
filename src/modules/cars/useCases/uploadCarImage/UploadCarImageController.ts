@@ -9,7 +9,7 @@ interface IOthers{
 
 interface IOutput{
    status: string;
-   result;
+   result: Object;
 }
 
 class UploadCarsImageController{
