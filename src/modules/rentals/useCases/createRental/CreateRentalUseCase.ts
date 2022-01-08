@@ -4,6 +4,7 @@ import { AppError } from "../../../../shared/errors/AppError"
 import { IDateProvider } from "../../../../shared/infra/providers/date/IDateProvider"
 import { ICreateRentalDTO } from "../../dtos/ICreateRentalDTO"
 import { IRentalsRepository } from "../../repositories/IRentalsRepository"
+import { ICarsRepository } from "../../../cars/repositories/ICarsRepository"
 
 @injectable()
 export class CreateRentalUseCase {
@@ -12,8 +13,10 @@ export class CreateRentalUseCase {
       @inject("RentalsRepository")
       private rentalsRepository: IRentalsRepository,
       @inject("DayjsDateProvider")
-      private dateProvider: IDateProvider
-   ){}
+      private dateProvider: IDateProvider,
+      @inject("CarsRepository")
+      private carsRepository: ICarsRepository
+      ){}
 
    async execute(rental: ICreateRentalDTO): Promise<void>{
       const isRentedCar = await this.rentalsRepository.findOpenRentalByCar(rental.car_id)
@@ -26,6 +29,8 @@ export class CreateRentalUseCase {
 
       if(compare < 24) throw new AppError("Invalid expected return date!")
 
-      await this.rentalsRepository.create(rental)
+      await this.rentalsRepository.create({...rental})
+      
+      await this.carsRepository.updateAvailable(rental.car_id, false)
    }
 }

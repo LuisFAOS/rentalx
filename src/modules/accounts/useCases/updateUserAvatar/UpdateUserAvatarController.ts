@@ -10,7 +10,6 @@ class UpdateUserAvatarController {
     
       const avatar_file = req.file.filename
    
-      console.log(avatar_file)
       const updateUserAvatarUseCase = container.resolve(UpdateUserAvatarUseCase)
       await updateUserAvatarUseCase.execute({ user_id, avatar_file })
    
