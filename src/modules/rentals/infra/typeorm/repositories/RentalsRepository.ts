@@ -25,5 +25,9 @@ export class RentalsRepository implements IRentalsRepository{
 
       await this.repository.save(newRental)
    }
+   async findById(id: string): Promise<Rental> {
+      const rental = await this.repository.findOne({id})
+      return rental
+   }
 
 }
