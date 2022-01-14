@@ -1,5 +1,6 @@
 import { getRepository, Repository } from "typeorm";
 import { ICreateRentalDTO } from "../../../dtos/ICreateRentalDTO";
+import { IRentalFilterDTO } from "../../../dtos/IRentalFilterDTO";
 import { IRentalsRepository } from "../../../repositories/IRentalsRepository";
 import { Rental } from "../entities/Rental";
 
@@ -28,6 +29,14 @@ export class RentalsRepository implements IRentalsRepository{
    async findById(id: string): Promise<Rental> {
       const rental = await this.repository.findOne({id})
       return rental
+   }
+   async filter(rentalFilter: IRentalFilterDTO): Promise<Rental[]> {
+      if(Object.keys(rentalFilter).length == 0) return this.repository.find()
+
+      return this.repository.find({
+         where: rentalFilter,
+         relations: ["car"]   
+      })
    }
 
 }
