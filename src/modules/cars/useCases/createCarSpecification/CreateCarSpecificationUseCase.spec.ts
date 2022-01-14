@@ -53,33 +53,33 @@ describe("CREATING CAR SPECIFICATION", () => {
    })
 
    it("[CreateCarSpecificationUseCase] - should not be able to add a new specification with a nonexistents specifications", async () => {
+      const car = {
+         name: "Audi TT",
+         brand: "Audi",
+         category_id: "3456789ojn",
+         daily_rate: 100,
+         description: "Carro veloz, versátil, bonito e com cara esportista",
+         fine_amount: 45678,
+         license_plate: "ABS4549"
+      }
+
+      await carsRepositoryInMemory.create(car)
+
+      const cars = await carsRepositoryInMemory.findAvailableCars(car)
+
+      const specifications_id = ["2345t6", "3245"]
+
       expect(async () => {
-         const car = {
-            name: "Audi TT",
-            brand: "Audi",
-            category_id: "3456789ojn",
-            daily_rate: 100,
-            description: "Carro veloz, versátil, bonito e com cara esportista",
-            fine_amount: 45678,
-            license_plate: "ABS4549"
-         }
-   
-         await carsRepositoryInMemory.create(car)
-   
-         const cars = await carsRepositoryInMemory.findAvailableCars(car)
-   
-         const specifications_id = ["2345t6", "3245"]
-   
          await createCarSpecificationUseCase.execute({car_id: cars[0].id, specifications_id})
-      }).rejects.toBeInstanceOf(AppError);
+      }).rejects.toEqual(new AppError("No specification was found!"));
    })
 
    it("[CreateCarSpecificationUseCase] - should not be able to add a specification car with a nonexistent car", () => {
+      const car_id = "kkkkkkkkkkkk fala derick"
+      const specifications_id = ["2345t6", "3245"]
+      
       expect(async () => {
-         const car_id = "kkkkkkkkkkkk fala derick"
-         const specifications_id = ["2345t6", "3245"]
-
          await createCarSpecificationUseCase.execute({car_id, specifications_id})
-      }).rejects.toBeInstanceOf(AppError)
+      }).rejects.toEqual(new AppError("Car doesn't exists!"))
    })
 })

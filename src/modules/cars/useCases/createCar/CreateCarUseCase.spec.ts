@@ -28,31 +28,31 @@ describe("CREATING A CAR", () => {
       await createCarUseCase.execute(car);
    });
 
-   it("[CreateCarUseCase] - should not be able to create a car with exists license plate", () => {
-      expect(async () => {
-         const car1 = {
-            name: "name car",
-            description: "description car",
-            daily_rate: 100,
-            license_plate: "ABC 1234",
-            fine_amount: 44,
-            brand: "brand car",
-            category_id: "category id"
-         }
+   it("[CreateCarUseCase] - should not be able to create a car with exists license plate", async() => {
+      const car1 = {
+         name: "name car",
+         description: "description car",
+         daily_rate: 100,
+         license_plate: "ABC 1234",
+         fine_amount: 44,
+         brand: "brand car",
+         category_id: "category id"
+      }
 
-         const car2 = {
-            name: "name car",
-            description: "description car",
-            daily_rate: 100,
-            license_plate: "ABC 1234",
-            fine_amount: 44,
-            brand: "brand car",
-            category_id: "category id"
-         }
-         
-         await createCarUseCase.execute(car1);
-         
+      const car2 = {
+         name: "name car",
+         description: "description car",
+         daily_rate: 100,
+         license_plate: "ABC 1234",
+         fine_amount: 44,
+         brand: "brand car",
+         category_id: "category id"
+      }
+      
+      await createCarUseCase.execute(car1);
+      
+      expect(async () => {
          await createCarUseCase.execute(car2);
-      }).rejects.toBeInstanceOf(AppError)
+      }).rejects.toEqual(new AppError("Car already exists"))
    })
 })
