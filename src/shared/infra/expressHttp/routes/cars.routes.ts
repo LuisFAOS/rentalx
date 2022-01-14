@@ -22,7 +22,6 @@ carsRoutes.post("/",
    new CreateCarController().handle)
 
 carsRoutes.post("/images", 
-
    uploadCar.array("images"),
    ExpressAdapter.create(new UploadCarsImageController().handle))
 

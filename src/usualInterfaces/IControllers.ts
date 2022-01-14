@@ -3,6 +3,7 @@ import { Request } from "express";
 let req: Request
 
 type othersType = {
+   authToken?: string,
    params?: typeof req.params,
    user_id?: string,
    file?: typeof req.file,
