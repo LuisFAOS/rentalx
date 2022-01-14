@@ -3,4 +3,5 @@ export interface IDateProvider {
    compareInHours(start_date: Date, end_date: Date): Promise<number>
    convertToUTC(date: Date): Date | string
    compareInDays(start_date: Date, end_date: Date): Promise<number>
+   addDays(days: number): Date
 }
