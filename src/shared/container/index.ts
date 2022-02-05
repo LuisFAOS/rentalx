@@ -18,6 +18,13 @@ import { IDateProvider } from '../infra/providers/date/IDateProvider'
 import { DayjsDateProvider } from '../infra/providers/date/implementations/DayjsDateProvider'
 import { IUsersTokensRepository } from '../../modules/accounts/repositories/IUsersTokensRepository'
 import { UsersTokensRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersTokensRepository"
+import { IMailProvider } from '../infra/providers/mail/IMailProvider'
+import { EtherealMailProvider } from '../infra/providers/mail/implementations/EtherealMailProvider'
+import { IStorageProvider } from '../infra/providers/storage/IStorageProvider'
+import { LocalStorageProvider } from '../infra/providers/storage/implementations/LocalStorageProvider'
+import { S3StorageProvider } from '../infra/providers/storage/implementations/S3StorageProvider'
+
+import injectionTokensMap from './injectionTokensMap'
 
 
 container.registerSingleton<ICategoriesRepository>(
@@ -60,4 +67,19 @@ container.registerSingleton<IUsersTokensRepository>(
 container.registerSingleton<IDateProvider>(
    "DayjsDateProvider",
    DayjsDateProvider
+)
+
+container.registerInstance<IMailProvider>(
+   "EtherealMailProvider",
+   new EtherealMailProvider()
+)
+
+const diskStorage = {
+   local: LocalStorageProvider,
+   s3: S3StorageProvider
+}
+
+container.registerSingleton<IStorageProvider>(
+   injectionTokensMap.StorageProvider,
+   diskStorage[process.env.disk],
 )
