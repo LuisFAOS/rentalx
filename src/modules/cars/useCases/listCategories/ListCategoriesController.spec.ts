@@ -34,7 +34,7 @@ describe("CREATE CATEGORY CONTROLLER", () => {
             password: "test"
          })
 
-      const {token} = responseToken.body
+      const {refresh_token} = responseToken.body
 
       await request(app)
          .post("/categories")
@@ -43,7 +43,7 @@ describe("CREATE CATEGORY CONTROLLER", () => {
             description: "A sigla SUV significa Sport Utility Vehicle -- ou seja, veículo utilitário esportivo"
          })
          .set({
-            authorization: token
+            authorization: refresh_token
          })
 
       const response = await request(app).get("/categories")
