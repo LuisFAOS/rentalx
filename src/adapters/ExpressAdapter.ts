@@ -14,6 +14,7 @@ class ExpressAdapter{
    static create(controller: Function){
       return async function(req: Request, res: Response){
          const others = {
+            authToken: req.headers["authorization"] || req.headers["x-access-token"],
             params: req.params,
             user_id: req.user_id,
             file: req.file,
