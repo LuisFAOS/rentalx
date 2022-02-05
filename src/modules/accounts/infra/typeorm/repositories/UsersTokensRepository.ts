@@ -11,8 +11,12 @@ class UsersTokensRepository implements IUsersTokensRepository{
       this.repository = getRepository(UserTokens)
    }
 
-   async create(user_token: ICreateUserTokenDTO): Promise<void> {
-      const newUserToken = this.repository.create(user_token)
+   async create({user_id, expires_date, refresh_token}: ICreateUserTokenDTO): Promise<void> {
+      const newUserToken = this.repository.create({
+         user_id,
+         expires_date,
+         refresh_token
+      })
    
       this.repository.save(newUserToken)
    }
@@ -28,6 +32,10 @@ class UsersTokensRepository implements IUsersTokensRepository{
 
    async deleteById(id: string): Promise<void> {
       this.repository.delete({id})
+   }
+
+   async findByRefreshToken(refresh_token: string): Promise<UserTokens> {
+       return this.repository.findOne({refresh_token})
    }
 }
 

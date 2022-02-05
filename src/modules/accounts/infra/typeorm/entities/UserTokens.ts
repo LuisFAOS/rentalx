@@ -16,7 +16,8 @@ class UserTokens {
 
    @ManyToOne(() => User)
    @JoinColumn({ name: "user_id" })
-
+   user: User;
+   
    @Column()
    expires_date: Date;
 
