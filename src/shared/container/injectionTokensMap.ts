@@ -7,6 +7,6 @@ export default {
    RentalsRepository: "RentalsRepository",
    UsersTokensRepository: "UsersTokensRepository",
    DayjsDateProvider: "DayjsDateProvider",
-   EtherealMailProvider: "EtherealMailProvider",
+   MailProvider: "MailProvider",
    StorageProvider: "StorageProvider"
 }

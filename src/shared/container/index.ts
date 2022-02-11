@@ -19,6 +19,7 @@ import { DayjsDateProvider } from '../infra/providers/date/implementations/Dayjs
 import { IUsersTokensRepository } from '../../modules/accounts/repositories/IUsersTokensRepository'
 import { UsersTokensRepository } from "../../modules/accounts/infra/typeorm/repositories/UsersTokensRepository"
 import { IMailProvider } from '../infra/providers/mail/IMailProvider'
+import { SESMailProvider } from '../infra/providers/mail/implementations/SESMailProvider'
 import { EtherealMailProvider } from '../infra/providers/mail/implementations/EtherealMailProvider'
 import { IStorageProvider } from '../infra/providers/storage/IStorageProvider'
 import { LocalStorageProvider } from '../infra/providers/storage/implementations/LocalStorageProvider'
@@ -69,10 +70,19 @@ container.registerSingleton<IDateProvider>(
    DayjsDateProvider
 )
 
+/** MAIL PROVIDER */
+
+const mailProvider = {
+   local: EtherealMailProvider,
+   ses: SESMailProvider,
+}
+
 container.registerInstance<IMailProvider>(
    "EtherealMailProvider",
-   new EtherealMailProvider()
+   new mailProvider[process.env.MAIL_PROVIDER]()
 )
+
+/** STORAGE PROVIDER */
 
 const diskStorage = {
    local: LocalStorageProvider,
