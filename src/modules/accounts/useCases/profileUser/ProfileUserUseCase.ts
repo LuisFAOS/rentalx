@@ -1,9 +1,10 @@
-import {inject} from "tsyringe"
+import {inject, injectable} from "tsyringe"
 import { IUserResponseDTO } from "../../dtos/IUserResponseDTO"
 import { UserMap } from "../../mappers/UserMap"
 import { IUsersRepository } from "../../repositories/IUsersRepository"
 
 
+@injectable()
 export class ProfileUserUseCase{
    constructor(
       @inject("UsersRepository")

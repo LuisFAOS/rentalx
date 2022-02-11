@@ -1,16 +1,19 @@
-import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers";
 import { ICreateCarDTO } from "../../dtos/ICreateCarDTO";
 import { CreateCarUseCase } from "./CreateCarUseCase";
 
-class CreateCarController {
-   async handle(req: Request, res: Response): Promise<Response>{
-      const car:ICreateCarDTO = req.body.car
+class CreateCarController implements IControllers{
+   async handle({body}: controllerArgs): Promise<{ status: "created" | "ok"; result: Object; }> {
+      const car:ICreateCarDTO = body.car
 
       const createCarUseCase = container.resolve(CreateCarUseCase)
       await createCarUseCase.execute(car)
 
-      return res.status(201).send()
+      return {
+         status: "created",
+         result: {}
+      }
    }
 }
 

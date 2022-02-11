@@ -1,17 +1,19 @@
-import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers";
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
-class CreateUserController{
-   async handle(req: Request, res: Response): Promise<Response>{
+type returnType = { status: "created" | "ok"; result: Object; }
+
+class CreateUserController implements IControllers{
+   async handle({body}: controllerArgs): Promise<returnType> {
       const { 
          name, 
          username, 
          driver_license, 
          email, 
          password 
-      }:ICreateUserDTO = req.body
+      }:ICreateUserDTO = body
 
       const createUserUseCase = container.resolve(CreateUserUseCase)
       await createUserUseCase.execute({
@@ -22,7 +24,10 @@ class CreateUserController{
          password 
       })
 
-      return res.status(201).send("user was created!")
+      return {
+         status: "created",
+         result: {}
+      }
    }
 }
 

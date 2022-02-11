@@ -1,16 +1,23 @@
 import { Response, Request } from 'express'
 import { container } from 'tsyringe'
+import { controllerArgs, IControllers } from '../../../../usualInterfaces/IControllers';
 
 import { CreateCategoryUseCase } from './CreateCategoryUseCase';
 
-class CreateCategoryController {
-   async handle(req: Request, res: Response): Promise<Response>{
-      const { name, description } = req.body
+type returnType = { status: "created" | "ok"; result: Object }
+type bodyType = { name: string; description: string}
+
+class CreateCategoryController implements IControllers{
+   async handle({body}: controllerArgs): Promise<returnType> {
+      const { name, description } = body as bodyType
 
       const createCategoryUseCase = container.resolve(CreateCategoryUseCase)
       await createCategoryUseCase.execute({ name, description })
 
-      return res.status(201).send("Category created!")  
+      return {
+         status: "created",
+         result: {}
+      }
    }
 }
 

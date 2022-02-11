@@ -5,7 +5,7 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated"
 import { ensureAdmin } from "../middlewares/ensureAdmin"
 
 import { ExpressAdapter } from "../../../../adapters/ExpressAdapter"
-import { uploadConfig } from '../../../../config/upload'
+import uploadConfig from '../../../../config/upload'
 
 import { CreateCarController } from "../../../../modules/cars/useCases/createCar/CreateCarController"
 import { ListAvailableCarsController } from "../../../../modules/cars/useCases/listAvailableCars/ListAvailableCarsController"
@@ -14,12 +14,12 @@ import { UploadCarsImageController } from "../../../../modules/cars/useCases/upl
 
 const carsRoutes = Router()
 
-const uploadCar = multer(uploadConfig("./tmp/cars"))
+const uploadCar = multer(uploadConfig)
 
 carsRoutes.post("/",
    ensureAuthenticated,
    ensureAdmin,
-   new CreateCarController().handle)
+   ExpressAdapter.create(new CreateCarController().handle))
 
 carsRoutes.post("/images", 
    uploadCar.array("images"),

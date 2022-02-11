@@ -12,14 +12,14 @@ const uploadAvatar = multer(uploadConfig)
 
 const usersRoutes = Router()
 
-usersRoutes.post("/", new CreateUserController().handle)
+usersRoutes.post("/", ExpressAdapter.create(new CreateUserController().handle))
 
 usersRoutes.patch("/avatar", 
    ensureAuthenticated,
    uploadAvatar.single("file"),
-   new UpdateUserAvatarController().handle
+   ExpressAdapter.create(new UpdateUserAvatarController().handle)
 )
 
-usersRoutes.get("/profile", ensureAuthenticated, ExpressAdapter.create(ProfileUserController))
+usersRoutes.get("/profile", ensureAuthenticated, ExpressAdapter.create(new ProfileUserController().handle))
 
 export { usersRoutes }

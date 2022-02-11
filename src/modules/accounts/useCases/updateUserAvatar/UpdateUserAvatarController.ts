@@ -1,19 +1,21 @@
-import { Request, Response } from "express"
-
 import { container } from "tsyringe"
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers"
 import { UpdateUserAvatarUseCase } from "./UpdateUserAvatarUseCase"
 
 
-class UpdateUserAvatarController {
-   async handle(req: Request, res: Response): Promise<Response>{
-      const {user_id} = req
+class UpdateUserAvatarController implements IControllers{
+   async handle({others}: controllerArgs): Promise<{ status: "created" | "ok"; result: Object; }> {
+      const {user_id} = others
     
-      const avatar_file = req.file.filename
+      const avatar_file = others.file.filename
    
       const updateUserAvatarUseCase = container.resolve(UpdateUserAvatarUseCase)
       await updateUserAvatarUseCase.execute({ user_id, avatar_file })
    
-      return res.status(204).send()
+      return {
+         status: "ok",
+         result: {}
+      }
    }
 }
 

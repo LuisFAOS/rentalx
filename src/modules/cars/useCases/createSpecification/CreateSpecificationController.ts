@@ -1,15 +1,21 @@
 import { container } from 'tsyringe'
-import { Request, Response } from 'express'
+import { controllerArgs, IControllers } from '../../../../usualInterfaces/IControllers'
 import { CreateSpecificationUseCase } from './CreateSpecificationUseCase'
 
-class CreateSpecificationController{
-   async handle(req: Request, res: Response): Promise<Response>{
-      const { name, description } = req.body
+type returnType = { status: "created" | "ok"; result: Object }
+type bodyType = { name: string; description: string}
+
+class CreateSpecificationController implements IControllers{
+   async handle({body}: controllerArgs): Promise<returnType> {
+      const { name, description } = body as bodyType
 
       const createSpecificationUseCase = container.resolve(CreateSpecificationUseCase)
       await createSpecificationUseCase.execute({ name, description })
 
-      return res.status(201).send("specification was created!")
+      return {
+         status: "created",
+         result: {}
+      }
    }
 }
 

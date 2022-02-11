@@ -1,16 +1,20 @@
-import { Request, Response } from 'express'
 import { container } from 'tsyringe';
+import { controllerArgs, IControllers } from '../../../../usualInterfaces/IControllers';
 import { ImportCategoryUseCase } from './ImportCategoryUseCase';
 
-class ImportCategoryController {
+type returnType = { status: "created" | "ok"; result: Object }
 
-   async handle(req: Request, res: Response): Promise<Response> {
-      const { file } = req
+class ImportCategoryController implements IControllers{
+   async handle({others}: controllerArgs): Promise<returnType> {
+      const { file } = others
 
       const importCategoryUseCase = container.resolve(ImportCategoryUseCase)
       await importCategoryUseCase.execute(file)
          
-      return res.status(200).send();
+      return {
+         status: "created",
+         result: {}
+      }
    }
 }
 

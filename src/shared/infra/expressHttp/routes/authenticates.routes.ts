@@ -6,7 +6,7 @@ import { RefreshTokenController } from '../../../../modules/accounts/useCases/re
 
 const authenticatesRoutes = Router()
 
-authenticatesRoutes.post("/sessions", new AuthenticateUserController().handle)
+authenticatesRoutes.post("/sessions", ExpressAdapter.create(new AuthenticateUserController().handle))
 authenticatesRoutes.post("/refresh_token", ExpressAdapter.create(new RefreshTokenController().handle))
 
 export { authenticatesRoutes }

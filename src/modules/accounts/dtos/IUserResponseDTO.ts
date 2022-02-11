@@ -3,5 +3,6 @@ export interface IUserResponseDTO{
    username: string;
    name: string;
    driver_license: string; 
+   avatar: string;
    avatar_url(): string;
 }

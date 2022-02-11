@@ -1,15 +1,11 @@
-import { ParamsDictionary } from "express-serve-static-core";
-import { ParsedQs } from "qs";
+
 import { container } from "tsyringe";
-import { IControllers } from "../../../../usualInterfaces/IControllers";
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers";
 import { ResetPasswordUseCase } from "./ResetPasswordUseCase";
 
-type queryParamsType = {token: string}
-type bodyType = {password: string}
-
 export class ResetPasswordController implements IControllers{
-   async handle(queryParams?: queryParamsType, body?: bodyType): Promise<{ status: "created" | "ok"; result: Object; }> {
-      const { token } = queryParams
+   async handle({queryParams, body}: controllerArgs): Promise<{ status: "created" | "ok"; result: Object; }> {
+      const token = queryParams.token as string
 
       const { password } = body
       

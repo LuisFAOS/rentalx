@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import multer from 'multer'
-import { uploadConfig } from '../../../../config/upload';
+import { ExpressAdapter } from '../../../../adapters/ExpressAdapter';
+import uploadConfig from '../../../../config/upload';
 
 import { CreateCategoryController } from '../../../../modules/cars/useCases/createCategory/CreateCategoryController';
 import { ImportCategoryController } from '../../../../modules/cars/useCases/importCategory/ImportCategoryController';
@@ -10,18 +11,18 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
 const categoriesRoutes = Router()
 
-const upload = multer(uploadConfig("./tmp"))
+const upload = multer(uploadConfig)
 
 categoriesRoutes.post("/", 
    ensureAuthenticated,
    ensureAdmin,
-   new CreateCategoryController().handle)
+   ExpressAdapter.create(new CreateCategoryController().handle))
 
-categoriesRoutes.get("/", new ListCategoriesController().handle)
+categoriesRoutes.get("/", ExpressAdapter.create(new ListCategoriesController().handle))
 
 categoriesRoutes.post("/import-file", 
    ensureAuthenticated,
    ensureAdmin,
-   upload.single("file"), new ImportCategoryController().handle)
+   upload.single("file"), ExpressAdapter.create(new ImportCategoryController().handle))
 
 export { categoriesRoutes }

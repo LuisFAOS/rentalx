@@ -1,4 +1,5 @@
 import "reflect-metadata"
+import "dotenv/config"
 
 import "../../container"
 import createConnection from "../typeorm"
@@ -13,12 +14,16 @@ import swaggerFile from "../../../swagger.json"
 import { errorHandler } from "./middlewares/errorHandler";
 
 import { router } from "./routes";
+import upload from "../../../config/upload"
 
 const app = express();
 
 app.use(express.json())
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerFile))
+
+app.use("/avatar", express.static(`${upload.tmpFolder}/avatar`))
+app.use("/cars", express.static(`${upload.tmpFolder}/cars`))
 
 app.get("/", (_, res) => {
    return res.send("Welcome to Rentalx API!")

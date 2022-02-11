@@ -1,4 +1,3 @@
-import { ParamsDictionary } from "express-serve-static-core"
 import { container } from "tsyringe"
 import { IControllers } from "../../../../usualInterfaces/IControllers"
 import { DevolutionRentalUseCase } from "./DevolutionRentalUseCase"
@@ -6,7 +5,7 @@ import { DevolutionRentalUseCase } from "./DevolutionRentalUseCase"
 type returnType = { status: "created" | "ok"; result: Object }
 
 class DevolutionRentalController implements IControllers{
-   async handle(_, b, others: {user_id: string, params: ParamsDictionary}): Promise<returnType> {
+   async handle({others}): Promise<returnType> {
       const { user_id } = others
       const { id } = others.params
       

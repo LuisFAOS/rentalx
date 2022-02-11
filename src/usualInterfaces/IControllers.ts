@@ -11,7 +11,9 @@ type othersType = {
 }
 type queryParamsType = typeof req.query
 
+export type controllerArgs = {queryParams?: queryParamsType, body?: any, others?: othersType}
+
 export interface IControllers {
-   handle(queryParams?: queryParamsType, body?: any, others?: othersType): 
-      Promise<{status: "created" | "ok", result: Object}>
+   handle(args: controllerArgs): 
+      Promise<{status: "created" | "ok", result: Object | Object[]}>
 }

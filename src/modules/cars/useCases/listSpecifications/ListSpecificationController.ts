@@ -1,15 +1,15 @@
 import { container } from "tsyringe"
+import { IControllers } from "../../../../usualInterfaces/IControllers"
 import { Specification } from "../../infra/typeorm/entities/Specification"
 import { ListSpecificationUseCase } from "./ListSpecificationUseCase"
 
-interface IOutput{
-   status: string,
+type returnType = {
+   status: "ok" | "created",
    result: Specification[]
 }
 
-class ListSpecificationController{
-
-   async handle():Promise<IOutput>{
+class ListSpecificationController implements IControllers{
+   async handle(): Promise<returnType> {
       const listSpecificationsUseCase = container.resolve(ListSpecificationUseCase)
       const specifications = await listSpecificationsUseCase.execute()
 

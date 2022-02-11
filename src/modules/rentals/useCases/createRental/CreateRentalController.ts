@@ -1,4 +1,5 @@
 import { container } from "tsyringe"
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers"
 import { CreateRentalUseCase } from "./CreateRentalUseCase"
 
 interface IBody {
@@ -6,9 +7,12 @@ interface IBody {
    car_id: string
 }
 
-export class CreateRentalController {
-   async handle(_, body:IBody, others: {user_id: string}){
-      const { expected_return_date, car_id} = body
+type returnType = { status: "created" | "ok"; result: Object; }
+
+
+export class CreateRentalController implements IControllers{
+   async handle({others, body}: controllerArgs): Promise<returnType> {
+      const { expected_return_date, car_id} = body as IBody
       const { user_id } = others
       
       const createRentalUseCase = container.resolve(CreateRentalUseCase)

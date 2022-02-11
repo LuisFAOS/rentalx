@@ -10,7 +10,7 @@ const specificationsRoutes = Router();
 specificationsRoutes.post("/", 
    ensureAuthenticated,
    ensureAdmin,
-   new CreateSpecificationController().handle)
+   ExpressAdapter.create(new CreateSpecificationController().handle))
 
 specificationsRoutes.get("/", ExpressAdapter.create(new ListSpecificationController().handle))
 

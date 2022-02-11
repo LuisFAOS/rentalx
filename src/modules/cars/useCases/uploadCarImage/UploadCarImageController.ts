@@ -1,21 +1,12 @@
 import { container } from "tsyringe";
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers";
 import { UploadCarImageUseCase } from "./UploadCarImageUseCase";
 
-interface IOthers{
-   params,
-   file,
-   files:Array<{filename: string}> 
-}
 
-interface IOutput{
-   status: string;
-   result: Object;
-}
-
-class UploadCarsImageController{
-   async handle(queryParams: {id: string}, body, others: IOthers): Promise<IOutput>{
-      const { id } = queryParams
-      const images = others.files
+class UploadCarsImageController implements IControllers{
+   async handle({queryParams, others}: controllerArgs): Promise<{ status: "created" | "ok"; result: Object; }> {
+      const id = queryParams.id as string
+      const images = others.files as Array<{filename: string}>
 
       const images_name = images.map(image => image.filename)
 

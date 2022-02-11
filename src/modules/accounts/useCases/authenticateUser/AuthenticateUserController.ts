@@ -1,15 +1,20 @@
 import { container } from "tsyringe"
-import { Request, Response } from "express"
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase"
+import { controllerArgs, IControllers } from "../../../../usualInterfaces/IControllers"
 
-class AuthenticateUserController{
-   async handle(req: Request, res: Response): Promise<Response>{
-      const { email, password } = req.body
+type returnType = { status: "created" | "ok"; result: Object; }
+
+class AuthenticateUserController implements IControllers{
+   async handle({body}: controllerArgs): Promise<returnType> {
+      const { email, password } = body
 
       const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase)
       const authenticateInfos = await authenticateUserUseCase.execute({ email, password })
 
-      return res.status(200).json(authenticateInfos)
+      return {
+         status: "ok",
+         result: authenticateInfos
+      }
    }
 }
 
