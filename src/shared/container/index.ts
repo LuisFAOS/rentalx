@@ -73,13 +73,13 @@ container.registerSingleton<IDateProvider>(
 /** MAIL PROVIDER */
 
 const mailProvider = {
-   local: EtherealMailProvider,
-   ses: SESMailProvider,
+   local: new EtherealMailProvider(),
+   ses: new SESMailProvider(),
 }
 
 container.registerInstance<IMailProvider>(
    "EtherealMailProvider",
-   new mailProvider[process.env.MAIL_PROVIDER]()
+   mailProvider[process.env.MAIL_PROVIDER]
 )
 
 /** STORAGE PROVIDER */
