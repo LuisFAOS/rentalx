@@ -5,11 +5,11 @@
    "username": "admin",
    "password": "r6e5n4t3x10000",
    "database": "rentx",
-   "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+   "migrations": ["./dist/shared/infra/typeorm/migrations/*.js"],
    "entities": [
-      "./src/modules/**/infra/typeorm/entities/*.ts"
+      "./dist/modules/**/infra/typeorm/entities/*.js"
     ],
    "cli": {
-      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+      "migrationsDir": "./dist/shared/infra/typeorm/migrations"
    }
 }
