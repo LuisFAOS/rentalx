@@ -1,5 +1,6 @@
 import "reflect-metadata"
 import "dotenv/config"
+import cors from "cors"
 
 import "../../container"
 import createConnection from "../typeorm"
@@ -18,6 +19,7 @@ import upload from "../../../config/upload"
 
 const app = express();
 
+app.use(cors())
 app.use(express.json())
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerFile))
